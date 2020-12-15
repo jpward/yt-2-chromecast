@@ -14,8 +14,8 @@ docker run \
         -ti \
         --net host \
         ${DIMG} /bin/bash -c ' \
-                              (cd /tmp/ && python3 /chunk_server.py &) \
-                              && (python3 chromecast_server.py & echo $!) > /tmp/PID \
+                              (/chunk_server.sh &) \
+                              && (/chromecast_server.sh &) \
                               && while true; do ${HERE}/vlcStream.sh || echo "EEK"; kill -s SIGTERM $(cat /tmp/PID); sleep 0.1; done \
                              '
 

@@ -15,4 +15,4 @@ RUN curl -LOJ https://raw.githubusercontent.com/videolan/vlc/6e0f4a28c6f82bef165
     mv youtube.lua /usr/lib/x86_64-linux-gnu/vlc/lua/playlist/youtube.luac && \
     sed -i 's/geteuid/getppid/' /usr/bin/vlc
 
-COPY chunk_server.py chromecast_server.py getYouTubeLink.sh vlcStream.sh /
+COPY chunk_server.sh chunk_server.py chromecast_server.sh chromecast_server.py getYouTubeLink.sh vlcStream.sh /
