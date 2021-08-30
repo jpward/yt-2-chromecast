@@ -16,6 +16,7 @@ docker run \
         ${DIMG} /bin/bash -c ' \
                               (/chunk_server.sh &) \
                               && (/chromecast_server.sh &) \
+                              && (/get_request.sh &) \
                               && while true; do ${HERE}/vlcStream.sh || echo "EEK"; kill -s SIGTERM $(cat /tmp/PID); sleep 0.1; done \
                              '
 

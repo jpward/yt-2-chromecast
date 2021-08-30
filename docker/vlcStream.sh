@@ -10,11 +10,23 @@ export XDG_RUNTIME_DIR=/tmp/xdgr
 
 RADIO=false
 YT_LINK=""
+REQUEST=/tmp/REQUEST
 
 #Find link to go with request, also check for radio request
 find_request() {
   #Wait for a request
-  SEARCH_TEXT="$(nc -l -p 22224)"
+  set +x
+  WAIT_4_REQ=true
+  while ${WAIT_4_REQ}; do
+    if [ -f ${REQUEST} ] && ! [ -f ${REQUEST}.lock ]; then
+      touch ${REQUEST}.lock
+      SEARCH_TEXT="$(cat ${REQUEST})"
+      rm -f ${REQUEST} ${REQUEST}.lock
+      WAIT_4_REQ=false
+    fi
+    sleep 0.3
+  done
+  set -x
 
   #Check if it is a radio request
   if echo ${SEARCH_TEXT} | grep -qi "radio$" ; then
@@ -85,7 +97,7 @@ if [ -f /tmp/RADIO ]; then
       #Time to switch
       PLAY=true
       break
-    elif ! ${CAST_ALIVE}; then
+    elif ! ${CAST_ALIVE} || [ -f ${REQUEST} ]; then
       PLAY=false
       break
     fi

@@ -67,6 +67,8 @@ def handler(signal_received, frame):
             if player_state != cast.media_controller.status.player_state:
                 player_state = cast.media_controller.status.player_state
                 print("Player state:", player_state)
+                if player_state == "UNKNOWNish":
+                    sys.exit(1)
 
             time.sleep(0.1)
             t = t - 0.1
